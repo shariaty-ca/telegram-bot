@@ -52,6 +52,32 @@ def send_welcome(message):
     # Send the welcome message with the appropriate menu
     bot.send_message(message.chat.id, welcome_message, reply_markup=markup)
 
+# Handle /help command
+@bot.message_handler(commands=['help'])
+def show_help(message):
+    help_text = """به قسمت راهنمای ربات انجمن علمی کامپیوتر دانشگاه شریعتی خوش اومدید. این لیست توضیحات برای هر گزینه موجود در پنل هست:
+
+1- **ویدئوهای آموزشی:** در صورتی که به محتوای آموزشی آزاد برای مطالعات خودتون در حوزه کامپیوتر نیاز دارید، میتونید از این گزینه استفاده کنید.
+2- **جزوه اساتید:** جزوه تمامی اساتید مربوط به حوزه کامپیوتر و منابع امتحانی اون‌ها اینجا قرار گرفته.
+3- **نظرسنجی ها:** اینجا میتونید نظرات خودتون رو وارد کنید تا به مدیران این ربات ارسال بشه.
+4- **عضویت در انجمن:** با زدن این گزینه لینک ثبت‌نام در انجمن برای شما ارسال میشه.
+
+گزینه‌های اضافی پنل عضو:
+1- **نشریه:** فایل‌های مختلف نشریه فانوس اینجا قرار داده میشن.
+2- **کارگاه‌ها:** مشاهده کارگاه‌های فعال و ثبت‌نام در آنها.
+"""
+    bot.send_message(message.chat.id, help_text, parse_mode='Markdown')
+
+# Handle /about command
+@bot.message_handler(commands=['about'])
+def show_about(message):
+    about_text = """این ربات، ربات مخصوص انجمن علمی کامپیوتر دانشگاه شریعتی هستش. ما یک انجمن هستیم که در کنار هم دوستانه چیزهای جدید یاد می‌گیریم و تلاش می‌کنیم خاطرات خوبی رو در دانشگاه رقم بزنیم.
+    
+برای اطلاعات بیشتر می‌تونید در کانال رسمی ما عضو بشید:
+➡️ [کانال رسمی انجمن](https://t.me/sca_shariaty) ⬅️
+"""
+    bot.send_message(message.chat.id, about_text, parse_mode='Markdown')
+
 # Handle menu options and role transitions
 @bot.message_handler(func=lambda message: message.text in section_messages)
 def handle_menu_option(message):
@@ -66,7 +92,7 @@ def handle_menu_option(message):
     elif message.text == "برگشت به پنل ادمین" and user_role == "admin member":
         user_role = "admin"
         send_welcome(message)
-        
+
     # Display the predefined response for the selected option
     else:
         bot.send_message(message.chat.id, section_messages[message.text])
